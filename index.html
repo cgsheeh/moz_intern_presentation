@@ -25,21 +25,22 @@
 		<div class="reveal">
 			<div class="slides">
 				<section>
-				<h1>Release Promotion</h1>
-				<h3>Keeping tabs on automation</h3>
-				<p>Connor Sheehan</br>
-				csheehan@mozilla.com</br>
-				<a href="https://github.com/cgsheeh">github.com/cgsheeh</a></p>
-
-				<p><img src="static/mozilla_logo.png" style="border-style:none" width="40%" height="40%"></p>
+					<img src="static/mozilla_logo.png" width="40%" height="40%">
+					<h1>Release Promotion</h1>
+					<h3>Keeping tabs on automation</h3>
+					<p>
+						Connor Sheehan</br>
+						csheehan@mozilla.com</br>
+						<a href="https://github.com/cgsheeh">github.com/cgsheeh</a>
+					</p>
 				</section>
 
 				<section>
 					<h3>The next ten minutes of your life</h3>
 					<ul>
 						<li>Who am I?</li>
-						<li>RelEng in 60s</li>
-						<li>Release Promotion in 60s</li>
+						<li>RelEng in 60 seconds</li>
+						<li>Release Promotion in 60 seconds</li>
 						<li>Challenges in Release Promotion</li>
 						<li>Solutions to these challenges</li>
 						<li>Takeaways from this summer</li>
@@ -47,40 +48,664 @@
 					</ul>
 				</section>
 
-				<section>
-					<h3>My Background</h3>
-					<table>
-						<tr>
-							<td>
-							<ul>
-								<li>B.Eng (Software) Candidate</li>
-								<li>McMaster University (Hamilton, ON)</li>
-								<li>Previously:
-								<ul><li>Software Imaging Assistant</li><li>Software Packager</li>
-								</ul></li>
-							</ul>
-							</td>
-
-							<td>
-							</td>
-						</tr>
-					</table>
+				<section data-background="#ffffff">
+					<section>
+						<h3>My Background</h3>
+					</section>
+					<section>
+						<img src="static/mcmaster.png">
+						<p>Final year B.Eng (Software) candidate</p>
+					</section>
+					<section>
+						<img src="static/UOIT_RGB.png" width="40%" height="40%">
+						<p>Summer Software Imaging Assistant</p>
+						<p>Summer Software Packager</p>
+					</section>
+					<section>
+						<img src="static/pl_ops_logo.png">
+						<p>Intern in Release Engineering (RelEng)</p>
+						<p>Mentored by Rail Aliiev</p>
+					</section>
 				</section>
 
 				<section>
-					<h3>Release Engineering Crash Course</h3>
+					<section>
+						<h2>Release Engineering in a Nutshell</h2>						
+					</section>
+					<section>
+						<blockquote cite="https://drive.google.com/file/d/0B_Jl94nModqdSFVseUotQVB1Rnc/view">"Release Engineering is to software engineering, as manufacturing is to an industrial process."</br>	- Boris Debic, Google Inc.</blockquote>
+					</section>
+					<section data-transition="concave">
+						<pre><code>
+							#include "FilterSupport.h"
+
+#include "mozilla/gfx/2D.h"
+#include "mozilla/gfx/Filters.h"
+#include "mozilla/gfx/Logging.h"
+#include "mozilla/PodOperations.h"
+
+#include "gfxContext.h"
+#include "gfxPattern.h"
+#include "gfxPlatform.h"
+#include "gfx2DGlue.h"
+
+#include "nsMargin.h"
+
+// c = n / 255
+// c <= 0.0031308f ? c * 12.92f : 1.055f * powf(c, 1 / 2.4f) - 0.055f
+static const float glinearRGBTosRGBMap[256] = {
+  0.000f, 0.050f, 0.085f, 0.111f, 0.132f, 0.150f, 0.166f, 0.181f,
+  0.194f, 0.207f, 0.219f, 0.230f, 0.240f, 0.250f, 0.260f, 0.269f,
+  0.278f, 0.286f, 0.295f, 0.303f, 0.310f, 0.318f, 0.325f, 0.332f,
+  0.339f, 0.346f, 0.352f, 0.359f, 0.365f, 0.371f, 0.378f, 0.383f,
+  0.389f, 0.395f, 0.401f, 0.406f, 0.412f, 0.417f, 0.422f, 0.427f,
+  0.433f, 0.438f, 0.443f, 0.448f, 0.452f, 0.457f, 0.462f, 0.466f,
+  0.471f, 0.476f, 0.480f, 0.485f, 0.489f, 0.493f, 0.498f, 0.502f,
+  0.506f, 0.510f, 0.514f, 0.518f, 0.522f, 0.526f, 0.530f, 0.534f,
+  0.538f, 0.542f, 0.546f, 0.549f, 0.553f, 0.557f, 0.561f, 0.564f,
+  0.568f, 0.571f, 0.575f, 0.579f, 0.582f, 0.586f, 0.589f, 0.592f,
+  0.596f, 0.599f, 0.603f, 0.606f, 0.609f, 0.613f, 0.616f, 0.619f,
+  0.622f, 0.625f, 0.629f, 0.632f, 0.635f, 0.638f, 0.641f, 0.644f,
+  0.647f, 0.650f, 0.653f, 0.656f, 0.659f, 0.662f, 0.665f, 0.668f,
+  0.671f, 0.674f, 0.677f, 0.680f, 0.683f, 0.685f, 0.688f, 0.691f,
+  0.694f, 0.697f, 0.699f, 0.702f, 0.705f, 0.708f, 0.710f, 0.713f,
+  0.716f, 0.718f, 0.721f, 0.724f, 0.726f, 0.729f, 0.731f, 0.734f,
+  0.737f, 0.739f, 0.742f, 0.744f, 0.747f, 0.749f, 0.752f, 0.754f,
+  0.757f, 0.759f, 0.762f, 0.764f, 0.767f, 0.769f, 0.772f, 0.774f,
+  0.776f, 0.779f, 0.781f, 0.784f, 0.786f, 0.788f, 0.791f, 0.793f,
+  0.795f, 0.798f, 0.800f, 0.802f, 0.805f, 0.807f, 0.809f, 0.812f,
+  0.814f, 0.816f, 0.818f, 0.821f, 0.823f, 0.825f, 0.827f, 0.829f,
+  0.832f, 0.834f, 0.836f, 0.838f, 0.840f, 0.843f, 0.845f, 0.847f,
+  0.849f, 0.851f, 0.853f, 0.855f, 0.857f, 0.860f, 0.862f, 0.864f,
+  0.866f, 0.868f, 0.870f, 0.872f, 0.874f, 0.876f, 0.878f, 0.880f,
+  0.882f, 0.884f, 0.886f, 0.888f, 0.890f, 0.892f, 0.894f, 0.896f,
+  0.898f, 0.900f, 0.902f, 0.904f, 0.906f, 0.908f, 0.910f, 0.912f,
+  0.914f, 0.916f, 0.918f, 0.920f, 0.922f, 0.924f, 0.926f, 0.928f,
+  0.930f, 0.931f, 0.933f, 0.935f, 0.937f, 0.939f, 0.941f, 0.943f,
+  0.945f, 0.946f, 0.948f, 0.950f, 0.952f, 0.954f, 0.956f, 0.957f,
+  0.959f, 0.961f, 0.963f, 0.965f, 0.967f, 0.968f, 0.970f, 0.972f,
+  0.974f, 0.975f, 0.977f, 0.979f, 0.981f, 0.983f, 0.984f, 0.986f,
+  0.988f, 0.990f, 0.991f, 0.993f, 0.995f, 0.997f, 0.998f, 1.000f
+};
+
+// c = n / 255
+// c <= 0.04045f ? c / 12.92f : powf((c + 0.055f) / 1.055f, 2.4f)
+static const float gsRGBToLinearRGBMap[256] = {
+  0.000f, 0.000f, 0.001f, 0.001f, 0.001f, 0.002f, 0.002f, 0.002f,
+  0.002f, 0.003f, 0.003f, 0.003f, 0.004f, 0.004f, 0.004f, 0.005f,
+  0.005f, 0.006f, 0.006f, 0.007f, 0.007f, 0.007f, 0.008f, 0.009f,
+  0.009f, 0.010f, 0.010f, 0.011f, 0.012f, 0.012f, 0.013f, 0.014f,
+  0.014f, 0.015f, 0.016f, 0.017f, 0.018f, 0.019f, 0.019f, 0.020f,
+  0.021f, 0.022f, 0.023f, 0.024f, 0.025f, 0.026f, 0.027f, 0.028f,
+  0.030f, 0.031f, 0.032f, 0.033f, 0.034f, 0.036f, 0.037f, 0.038f,
+  0.040f, 0.041f, 0.042f, 0.044f, 0.045f, 0.047f, 0.048f, 0.050f,
+  0.051f, 0.053f, 0.054f, 0.056f, 0.058f, 0.060f, 0.061f, 0.063f,
+  0.065f, 0.067f, 0.068f, 0.070f, 0.072f, 0.074f, 0.076f, 0.078f,
+  0.080f, 0.082f, 0.084f, 0.087f, 0.089f, 0.091f, 0.093f, 0.095f,
+  0.098f, 0.100f, 0.102f, 0.105f, 0.107f, 0.109f, 0.112f, 0.114f,
+  0.117f, 0.120f, 0.122f, 0.125f, 0.127f, 0.130f, 0.133f, 0.136f,
+  0.138f, 0.141f, 0.144f, 0.147f, 0.150f, 0.153f, 0.156f, 0.159f,
+  0.162f, 0.165f, 0.168f, 0.171f, 0.175f, 0.178f, 0.181f, 0.184f,
+  0.188f, 0.191f, 0.195f, 0.198f, 0.202f, 0.205f, 0.209f, 0.212f,
+  0.216f, 0.220f, 0.223f, 0.227f, 0.231f, 0.235f, 0.238f, 0.242f,
+  0.246f, 0.250f, 0.254f, 0.258f, 0.262f, 0.266f, 0.270f, 0.275f,
+  0.279f, 0.283f, 0.287f, 0.292f, 0.296f, 0.301f, 0.305f, 0.309f,
+  0.314f, 0.319f, 0.323f, 0.328f, 0.332f, 0.337f, 0.342f, 0.347f,
+  0.352f, 0.356f, 0.361f, 0.366f, 0.371f, 0.376f, 0.381f, 0.386f,
+  0.392f, 0.397f, 0.402f, 0.407f, 0.413f, 0.418f, 0.423f, 0.429f,
+  0.434f, 0.440f, 0.445f, 0.451f, 0.456f, 0.462f, 0.468f, 0.474f,
+  0.479f, 0.485f, 0.491f, 0.497f, 0.503f, 0.509f, 0.515f, 0.521f,
+  0.527f, 0.533f, 0.539f, 0.546f, 0.552f, 0.558f, 0.565f, 0.571f,
+  0.578f, 0.584f, 0.591f, 0.597f, 0.604f, 0.610f, 0.617f, 0.624f,
+  0.631f, 0.638f, 0.644f, 0.651f, 0.658f, 0.665f, 0.672f, 0.680f,
+  0.687f, 0.694f, 0.701f, 0.708f, 0.716f, 0.723f, 0.730f, 0.738f,
+  0.745f, 0.753f, 0.761f, 0.768f, 0.776f, 0.784f, 0.791f, 0.799f,
+  0.807f, 0.815f, 0.823f, 0.831f, 0.839f, 0.847f, 0.855f, 0.863f,
+  0.871f, 0.880f, 0.888f, 0.896f, 0.905f, 0.913f, 0.922f, 0.930f,
+  0.939f, 0.947f, 0.956f, 0.965f, 0.973f, 0.982f, 0.991f, 1.000f
+};
+
+namespace mozilla {
+namespace gfx {
+
+// Some convenience FilterNode creation functions.
+
+namespace FilterWrappers {
+
+  static already_AddRefed<FilterNode>
+  Unpremultiply(DrawTarget* aDT, FilterNode* aInput)
+  {
+    RefPtr<FilterNode> filter = aDT->CreateFilter(FilterType::UNPREMULTIPLY);
+    if (filter) {
+      filter->SetInput(IN_UNPREMULTIPLY_IN, aInput);
+      return filter.forget();
+    }
+    return nullptr;
+  }
+
+  static already_AddRefed<FilterNode>
+  Premultiply(DrawTarget* aDT, FilterNode* aInput)
+  {
+    RefPtr<FilterNode> filter = aDT->CreateFilter(FilterType::PREMULTIPLY);
+    if (filter) {
+      filter->SetInput(IN_PREMULTIPLY_IN, aInput);
+      return filter.forget();
+    }
+    return nullptr;
+  }
+
+  static already_AddRefed<FilterNode>
+  LinearRGBToSRGB(DrawTarget* aDT, FilterNode* aInput)
+  {
+    RefPtr<FilterNode> transfer = aDT->CreateFilter(FilterType::DISCRETE_TRANSFER);
+    if (transfer) {
+      transfer->SetAttribute(ATT_DISCRETE_TRANSFER_DISABLE_R, false);
+      transfer->SetAttribute(ATT_DISCRETE_TRANSFER_TABLE_R, glinearRGBTosRGBMap, 256);
+      transfer->SetAttribute(ATT_DISCRETE_TRANSFER_DISABLE_G, false);
+      transfer->SetAttribute(ATT_DISCRETE_TRANSFER_TABLE_G, glinearRGBTosRGBMap, 256);
+      transfer->SetAttribute(ATT_DISCRETE_TRANSFER_DISABLE_B, false);
+      transfer->SetAttribute(ATT_DISCRETE_TRANSFER_TABLE_B, glinearRGBTosRGBMap, 256);
+      transfer->SetAttribute(ATT_DISCRETE_TRANSFER_DISABLE_A, true);
+      transfer->SetInput(IN_DISCRETE_TRANSFER_IN, aInput);
+      return transfer.forget();
+    }
+    return nullptr;
+  }
+
+  static already_AddRefed<FilterNode>
+  SRGBToLinearRGB(DrawTarget* aDT, FilterNode* aInput)
+  {
+    RefPtr<FilterNode> transfer = aDT->CreateFilter(FilterType::DISCRETE_TRANSFER);
+    if (transfer) {
+      transfer->SetAttribute(ATT_DISCRETE_TRANSFER_DISABLE_R, false);
+      transfer->SetAttribute(ATT_DISCRETE_TRANSFER_TABLE_R, gsRGBToLinearRGBMap, 256);
+      transfer->SetAttribute(ATT_DISCRETE_TRANSFER_DISABLE_G, false);
+      transfer->SetAttribute(ATT_DISCRETE_TRANSFER_TABLE_G, gsRGBToLinearRGBMap, 256);
+      transfer->SetAttribute(ATT_DISCRETE_TRANSFER_DISABLE_B, false);
+      transfer->SetAttribute(ATT_DISCRETE_TRANSFER_TABLE_B, gsRGBToLinearRGBMap, 256);
+      transfer->SetAttribute(ATT_DISCRETE_TRANSFER_DISABLE_A, true);
+      transfer->SetInput(IN_DISCRETE_TRANSFER_IN, aInput);
+      return transfer.forget();
+    }
+    return nullptr;
+  }
+
+  static already_AddRefed<FilterNode>
+  Crop(DrawTarget* aDT, FilterNode* aInputFilter, const IntRect& aRect)
+  {
+    RefPtr<FilterNode> filter = aDT->CreateFilter(FilterType::CROP);
+    if (filter) {
+      filter->SetAttribute(ATT_CROP_RECT, Rect(aRect));
+      filter->SetInput(IN_CROP_IN, aInputFilter);
+      return filter.forget();
+    }
+    return nullptr;
+  }
+
+  static already_AddRefed<FilterNode>
+  Offset(DrawTarget* aDT, FilterNode* aInputFilter, const IntPoint& aOffset)
+  {
+    RefPtr<FilterNode> filter = aDT->CreateFilter(FilterType::TRANSFORM);
+    if (filter) {
+      filter->SetAttribute(ATT_TRANSFORM_MATRIX, Matrix::Translation(aOffset.x, aOffset.y));
+      filter->SetInput(IN_TRANSFORM_IN, aInputFilter);
+      return filter.forget();
+    }
+    return nullptr;
+  }
+
+  static already_AddRefed<FilterNode>
+  GaussianBlur(DrawTarget* aDT, FilterNode* aInputFilter, const Size& aStdDeviation)
+  {
+    float stdX = float(std::min(aStdDeviation.width, kMaxStdDeviation));
+    float stdY = float(std::min(aStdDeviation.height, kMaxStdDeviation));
+    if (stdX == stdY) {
+      RefPtr<FilterNode> filter = aDT->CreateFilter(FilterType::GAUSSIAN_BLUR);
+      if (filter) {
+        filter->SetAttribute(ATT_GAUSSIAN_BLUR_STD_DEVIATION, stdX);
+        filter->SetInput(IN_GAUSSIAN_BLUR_IN, aInputFilter);
+        return filter.forget();
+      }
+      return nullptr;
+    }
+    RefPtr<FilterNode> filterH = aDT->CreateFilter(FilterType::DIRECTIONAL_BLUR);
+    RefPtr<FilterNode> filterV = aDT->CreateFilter(FilterType::DIRECTIONAL_BLUR);
+    if (filterH && filterV) {
+      filterH->SetAttribute(ATT_DIRECTIONAL_BLUR_DIRECTION, (uint32_t)BLUR_DIRECTION_X);
+      filterH->SetAttribute(ATT_DIRECTIONAL_BLUR_STD_DEVIATION, stdX);
+      filterV->SetAttribute(ATT_DIRECTIONAL_BLUR_DIRECTION, (uint32_t)BLUR_DIRECTION_Y);
+      filterV->SetAttribute(ATT_DIRECTIONAL_BLUR_STD_DEVIATION, stdY);
+      filterH->SetInput(IN_DIRECTIONAL_BLUR_IN, aInputFilter);
+      filterV->SetInput(IN_DIRECTIONAL_BLUR_IN, filterH);
+      return filterV.forget();
+    }
+    return nullptr;
+  }
+
+  static already_AddRefed<FilterNode>
+  Clear(DrawTarget* aDT)
+  {
+    RefPtr<FilterNode> filter = aDT->CreateFilter(FilterType::FLOOD);
+    if (filter) {
+      filter->SetAttribute(ATT_FLOOD_COLOR, Color(0, 0, 0, 0));
+      return filter.forget();
+    }
+    return nullptr;
+  }
+
+  static already_AddRefed<FilterNode>
+  ForSurface(DrawTarget* aDT, SourceSurface* aSurface,
+             const IntPoint& aSurfacePosition)
+  {
+    RefPtr<FilterNode> filter = aDT->CreateFilter(FilterType::TRANSFORM);
+    if (filter) {
+      filter->SetAttribute(ATT_TRANSFORM_MATRIX,
+        Matrix::Translation(aSurfacePosition.x, aSurfacePosition.y));
+      filter->SetInput(IN_TRANSFORM_IN, aSurface);
+      return filter.forget();
+    }
+    return nullptr;
+  }
+
+  static already_AddRefed<FilterNode>
+  ToAlpha(DrawTarget* aDT, FilterNode* aInput)
+  {
+    float zero = 0.0f;
+    RefPtr<FilterNode> transfer = aDT->CreateFilter(FilterType::DISCRETE_TRANSFER);
+    if (transfer) {
+      transfer->SetAttribute(ATT_DISCRETE_TRANSFER_DISABLE_R, false);
+      transfer->SetAttribute(ATT_DISCRETE_TRANSFER_TABLE_R, &zero, 1);
+      transfer->SetAttribute(ATT_DISCRETE_TRANSFER_DISABLE_G, false);
+      transfer->SetAttribute(ATT_DISCRETE_TRANSFER_TABLE_G, &zero, 1);
+      transfer->SetAttribute(ATT_DISCRETE_TRANSFER_DISABLE_B, false);
+      transfer->SetAttribute(ATT_DISCRETE_TRANSFER_TABLE_B, &zero, 1);
+      transfer->SetAttribute(ATT_DISCRETE_TRANSFER_DISABLE_A, true);
+      transfer->SetInput(IN_DISCRETE_TRANSFER_IN, aInput);
+      return transfer.forget();
+    }
+    return nullptr;
+  }
+
+} // namespace FilterWrappers
+
+// A class that wraps a FilterNode and handles conversion between different
+// color models. Create FilterCachedColorModels with your original filter and
+// the color model that this filter outputs in natively, and then call
+// ->ForColorModel(colorModel) in order to get a FilterNode which outputs to
+// the specified colorModel.
+// Internally, this is achieved by wrapping the original FilterNode with
+// conversion FilterNodes. These filter nodes are cached in such a way that no
+// repeated or back-and-forth conversions happen.
+class FilterCachedColorModels
+{
+public:
+  NS_INLINE_DECL_REFCOUNTING(FilterCachedColorModels)
+  // aFilter can be null. In that case, ForColorModel will return a non-null
+  // completely transparent filter for all color models.
+  FilterCachedColorModels(DrawTarget* aDT,
+                          FilterNode* aFilter,
+                          ColorModel aOriginalColorModel);
+
+  // Get a FilterNode for the specified color model, guaranteed to be non-null.
+  already_AddRefed<FilterNode> ForColorModel(ColorModel aColorModel);
+
+  AlphaModel OriginalAlphaModel() const { return mOriginalColorModel.mAlphaModel; }
+
+private:
+  // Create the required FilterNode that will be cached by ForColorModel.
+  already_AddRefed<FilterNode> WrapForColorModel(ColorModel aColorModel);
+
+  RefPtr<DrawTarget> mDT;
+  ColorModel mOriginalColorModel;
+
+  // This array is indexed by ColorModel::ToIndex.
+  RefPtr<FilterNode> mFilterForColorModel[4];
+
+  ~FilterCachedColorModels() {}
+};
+
+FilterCachedColorModels::FilterCachedColorModels(DrawTarget* aDT,
+                                                 FilterNode* aFilter,
+                                                 ColorModel aOriginalColorModel)
+ : mDT(aDT)
+ , mOriginalColorModel(aOriginalColorModel)
+{
+  if (aFilter) {
+    mFilterForColorModel[aOriginalColorModel.ToIndex()] = aFilter;
+  } else {
+    RefPtr<FilterNode> clear = FilterWrappers::Clear(aDT);
+    mFilterForColorModel[0] = clear;
+    mFilterForColorModel[1] = clear;
+    mFilterForColorModel[2] = clear;
+    mFilterForColorModel[3] = clear;
+  }
+}
+
+
+						</code></pre>
+					</section>
+					<section data-transition="concave-in">
+						<!-- TODO: add transition from source to firefox logo -->
+						<img src="static/firefox.png">
+					</section>
+					<section>
+						<ul>
+							<li>Creating the source-to-product pipeline</li>
+							<li>This includes:
+								<ul>
+									<li>Building</li>
+									<li>Signing</li>
+									<li>Packaging</li>
+									<li>Updating</li>
+									<li>Testing...</li>
+								</ul>
+							</li>
+							<li>Across multiple OS...</li>
+							<li>Across multiple platforms...</li>
+							<li>Supporting multiple product versions...</li>
+						</ul>
+					</section>
 				</section>
 
 				<section>
-					<h3>Release Promotion</h3>
+					<section>
+						<h3>Release Promotion</h3>
+					</section>
+
+					<section>
+						<h3>Current Release Process</h3>
+						<ul>
+							<li>Current process has two set of builds: CI and Release</li>
+							<li>Release builds are started manually with modified build configs</li>
+							<li>These builds do not go through CI testing</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>Promotion</h3>
+						<ul>
+							<li>'Promote' passing CI builds to release branches</li>
+							<li>Eliminates builds, reducing time-to-ship</li>
+							<li>Better visibility, tasks report to Treeherder</li>
+							<li>Shipped product is exactly what has been tested</li>
+						</ul>
+					</section>
 				</section>
 
 				<section>
-					<h3></h3>
+					<section>
+						<h2>Pulse-Notify</h2>
+					</section>
+
+					<section>
+						<h3>Purpose</h3>
+						<ul>
+							<li>Provide a method of notification similar to existing channels, for RelPro</li>
+							<li>When things go wrong, make sure people know!</li>
+							<li>Collect all log data to a single location</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>Technical Details</h3>
+						<ul>
+							<li>Asynchronous Python 3.5</li>
+							<li>Built on top of Taskcluster, Mozilla Pulse</li>
+							<li>Uses dependency injection with drop-in functionality</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>Startup</h3>
+						<div>
+						<p>Initializes a set of plugins using importlib</p>
+						<pre><code class="hljs" data-trim>
+services_list = os.environ['PN_SERVICES'].split(':')
+
+#  notifiers contains objects representing a plugin's method of notification
+self.notifiers = {}
+for service in services_list:
+    try:
+        self.notifiers[service] = import_module('pulsenotify.plugins.' + service).Plugin()
+    except ImportError:
+        log.exception('No plugin named %s, initialization failed', service)
+						</code></pre></div>
+					</section>
+
+					<section>
+						<h3>Listen for Release events on Pulse</h3>
+						<ul>
+							<li>Declare a queue to consume messages from</li>
+							<li>Routing key "route.index.releases.v1.#" catches all events related to releases</li>
+							<li>Bind the exchanges to the queue with the releases key
+								<ul>
+									<li>exchange/taskcluster-queue/v1/<b>artifact-created</b></li>
+									<li>exchange/taskcluster-queue/v1/<b>task-completed</b></li>
+									<li>exchange/taskcluster-queue/v1/<b>task-failed</b></li>
+									<li>exchange/taskcluster-queue/v1/<b>task-exception</b></li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>A message enters the queue!</h3>
+						<ol>
+							<li>Consumer calls dispatch method</li>
+							<li>Task status is pulled from exchange name</li>
+							<li>Task is retrieved from taskcluster</li>
+							<li>Collect notification info from task definition</li>
+							<li>Notify based on this configuration</li>
+						</ol>
+					</section>
 				</section>
 
 				<section>
-					<h3>Pulse-Notify</h3>
+					<section>
+						<h2>Plugins</h2>
+					</section>
+
+					<section>
+						<h3>Plugins</h3>
+						<ul>
+							<li>Defines a single notification</li>
+							<li>A file with class Plugin, inherited from BasePlugin</li>
+							<li>Override a method notify that is called by the consumer</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>ses</h3>
+						<ul>
+							<li>Sends emails via Amazon SES</li>
+							<li>Uses Jinja2 template</li>
+							<li>***ADD IMAGE OF EMAIL***</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>log_collect</h3>
+						<ul>
+							<li>Collects and stores release logs</li>
+							<li>A single Amazon S3 bucket for easy access</li>
+							<li>URL builder built in to BasePlugin</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>IRC</h3>
+						<ul>
+							<li>Pushes notifications to IRC channels</li>
+							<li>
+							Colour coded by task status
+								<ul>
+									<li>completed</li>
+									<li>failed</li>
+									<li>artifacts</li>
+									<li>exception</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Integrating Into the Existing Pipeline</h2>
+					</section>
+
+					<section>
+						<h3>Releasetasks</h3>
+						<ul>
+							<li>Library for creating release related task graphs</li>
+							<li>Loads from a YAML config</li>
+							<li>Generates JSON task definitions with Jinja2 template engine</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>Notification Macro</h3>
+						<pre><code>
+{% macro task_notifications(taskname, failed=None, exception=None, artifact=None, completed=None) %}
+{% include "notifications.yml.tmpl" %}
+{% endmacro %}
+						</code></pre>
+
+						<pre><code>
+{{ task_notifications(taskname="[beetmover] {} {} {} en_US completes candidates".format(product, branch, platform), completed=["releasetasks"], failed=["releasetasks"], exception=["releasetasks"]) | indent(12) }}
+						</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h3>IDs</h3>
+					</section>
+
+					<section>
+						<h3>Too much repetition</h3>
+						<ul>
+							<li>A lot of repeated data within the task</li>
+							<li>Calls to the macro were messy and long</li>
+							<li>Needed cleaner way to default</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>IDs</h3>
+						<ul>
+							<li>Pre-configured notification info</li>
+							<li>Assigned a name</li>
+							<li>Service will overwrite data to notify based on this config</li>
+							<li>Notifications without ID would still work</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>ID YAML File</h3>
+						<pre><code>
+id1:
+    plugins:
+        - irc
+        - ses
+    channels:
+        - "#chan1"
+    emails:
+        - example@mozilla.com
+id2:
+    plugins:
+        - log_collect
+						</code></pre>
+					</section>
+					<section>
+						<h3>Example Config from Task</h3>
+						<pre class="fragment fade-in"><code class="fragment fade-out">
+"task-failed": {
+	"message": "The task failed! Uh-oh...",
+	"plugins": [
+	  "irc",
+	  "smtp",
+	],
+	"nicks": [
+	  "sheehan",
+	  "rail",
+	],
+	"emails": [
+	  "someone@mozilla.com",
+	],
+	"ids": [
+	    "id1",
+	    "id2",
+	]
+}
+						</code></pre>
+					</section>
+					<section>
+					<h3>Config for id1</h3>
+						<pre><code>
+"task-failed": {
+    "message": "The task failed! Uh-oh...",
+    "plugins": [
+      "irc",
+      "ses",
+    ],
+    "nicks": [
+      "sheehan",
+      "rail",
+    ],
+    "emails": [
+      "example@mozilla.com",
+    ],
+    "channels": [
+      "#chan1"
+    ],
+    "ids": [
+        "id1",
+        "id2",
+    ]
+}
+						</code></pre>
+					</section>
+					<section>
+					<h3>Config for id2</h3>
+						<pre><code>
+"task-failed": {
+    "message": "The task failed! Uh-oh...",
+    "plugins": [
+      "log_collect",
+    ],
+    "nicks": [
+      "sheehan",
+      "rail",
+    ],
+    "emails": [
+      "example@mozilla.com",
+    ],
+    "channels": [
+      "#chan1"
+    ],
+    "ids": [
+        "id1",
+        "id2",
+    ]
+}
+						</code></pre>
+					</section>
+
+					<section>
+						<h3>New Python 3.5 Syntax!</h3>
+						Old way:
+						<pre><code>
+merged_dict = dict1.copy()
+merged_dict.update(dict2)
+merged_dict.update(dict3)
+						</code></pre>
+						New Way
+						<pre><code>
+merged_dict = {**dict1, **dict2, **dict3}
+						</code></pre>
+					</section>
+
 				</section>
 
 				<section>

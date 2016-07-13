@@ -1,0 +1,56 @@
+Things to talk about
+
+1. Who am I
+2. Release Engineering
+	- Responsible for creating a pipeline to turn source code into products
+	- Includes building, signing, packaging, updating and testing on a diverse set of desktop and mobile platforms, across several versions
+	- it has been said that the difference between manufacturing software in a startup/small team vs an industrial strength company is releng
+
+3. Release Promotion
+	- Also known as 'build promotion'
+	- Currently the process of creating a release involves manually starting the build/test/packaging process with a different configuration from the builds produced by CI
+	- Builds produced through this method would not go through CI testing
+	- Release Promotion makes the process more efficient by 
+		- Eliminating the second build process.
+		- Reporting all release related tasks to Treeherder (improving visibility)
+		- Increases confidence in the quality of the product, as the shipped application is now the exact application that has gone through testing
+
+4. Challenges in release promotion
+	- 
+
+5. Pulse-Notify
+	- Purpose/Use Cases
+		- Small service used to make release-promotion operational tasks more efficient
+		- Sends notification emails similar to those sent by build-automation
+		- Streams colour-coded notification to an IRC channel
+		- Collects and organizes logs for release related tasks
+	- Technical Info
+		- Asynchronous Python 3.5
+		- Built on top of Taskcluster and Mozilla Pulse
+		- Plugin architecture
+	- How it works
+		- Initializes plugin objects, named identities
+		- Listens for release-promotion related events on Mozilla Pulse
+		- Pulls the corresponding taskcluster task definition
+		- Skims the task for a section marked "extra/notifications"
+		- Depending on the task status/AMQP exchange detected, pulls a notification configuration out of the task
+		- Calls 'notify' method for plugins enabled in the configuration
+	- Identities
+	- Plugins
+		- Existing
+			- SMTP
+				- Send emails from a SMTP server
+			- SNS
+				- Subscribe to a topic, send notifications there
+			- SES
+				- Send emails using SES
+			- IRC
+				- Send messages to channels 
+		- Creating new ones
+			- Base classes
+				- BasePlugin
+				- AWSPlugin
+			- 1 method API
+
+6. Takeaways
+
