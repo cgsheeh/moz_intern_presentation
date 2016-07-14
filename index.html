@@ -111,18 +111,19 @@ public class HelloWorld{
 					</section>
 
 					<section>
-						<h3>Current Release Process</h3>
+						<h3>Previous Release Process</h3>
 						<ul>
-							<li class="fragment slide-in">Current process has two set of builds: CI and Release</li>
+							<li class="fragment slide-in">Old process has two set of builds: CI and Release</li>
 							<li class="fragment slide-in">Release builds started manually with modified build configs</li>
 							<li class="fragment slide-in">These builds do not go through CI testing</li>
+							<li class="fragment slide-in">Still used by Fennec and Thunderbird</li>
 						</ul>
 					</section>
 
 					<section>
 						<h3>Promotion</h3>
 						<ul>
-							<li class="fragment slide-in">'Promote' passing CI builds to release branches</li>
+							<li class="fragment slide-in">'Promote' passing CI builds to users</li>
 							<li class="fragment slide-in">Eliminates builds, reducing time-to-ship</li>
 							<li class="fragment slide-in">Better visibility, tasks report to Treeherder</li>
 							<li class="fragment slide-in">Shipped product is exactly what has been tested</li>
@@ -138,7 +139,7 @@ public class HelloWorld{
 					<section>
 						<h3>Purpose</h3>
 						<ul>
-							<li class="fragment slide-in">Provide a method of notification similar to existing channels, for RelPro</li>
+							<li class="fragment slide-in">Re-implement notifications for new process</li>
 							<li class="fragment slide-in">When things go wrong, make sure people know!</li>
 							<li class="fragment slide-in">Collect all log data to a single location</li>
 						</ul>
