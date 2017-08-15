@@ -43,6 +43,69 @@
 - Client library generation                                 |
 - API specifications in YAML                                |
 
++++
+
+```yaml
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "RelEng Notification Policy"
+  description: |
+    Releng Notification Policy service manages the sending and acknowledging of RelEng notification
+    messages based on notification policies.
+  contact:
+    name: Mozilla Release Engineering
+    url: 'https://wiki.mozilla.org/ReleaseEngineering'
+    email: release@mozilla.com
+  license:
+    name: Mozilla Public License Version 2.0
+    url: 'https://www.mozilla.org/en-US/MPL/2.0/'
+
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  '/message/{uid}':
+      put:
+          summary: Add a new notification message to the service.
+          operationId: "releng_notification_policy.api.put_message"
+          parameters:
+            - name: uid
+              in: path
+              type: string
+              description: Tracking UID for message.
+              required: true
+    
+            - name: body
+              in: body
+              required: true
+              description: Notification message to add to the service.
+              schema:
+                $ref: '#/definitions/Message'
+    
+          responses:
+            200:
+              description: Notification policy created.
+            409:
+              description: Message or policy with the specified UID already exists
+              schema:
+                $ref: '#/definitions/Problem'
+            400:
+              description: Could not create the notification policy
+              schema:
+                $ref: '#/definitions/Problem'
+```
+
+@[1-19](Specify app metadata)
+@[21-25](Define your URL endpoints and bind to Python views)
+@[26-38](Define your required input parameters)
+@[40-50](Define response codes, their format and context)
+
++++
+
+![SwaggerUI](assets/swagger_ui.png)
 
 ---
 
