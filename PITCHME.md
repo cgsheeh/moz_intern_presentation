@@ -1,4 +1,4 @@
-## Some title for the presentation
+## Big Project, Small Services
 
 <br>
 
@@ -12,7 +12,7 @@
 ### Topics
 
 - RelEng Services
-- Ship-It v2!
+- Ship-It v2
 - My work
 - Wrap-Up and Thanks
 
@@ -38,10 +38,10 @@
 ### Why Swagger/OpenAPI?
 ![Swagger](assets/swagger.png)
 
-- Use *Connexion* library
-- Auto-generate SwaggerUI
-- Auto-generate client libraries in multiple languages
-- API specifications in YAML
+- Use *Connexion* library                                   |
+- Auto-generate SwaggerUI                                   |
+- Client library generation                                 |
+- API specifications in YAML                                |
 
 
 ---
@@ -51,3 +51,13 @@
 - Re-design of Ship-It v1
 - Internal tool for starting the release process
 - 
+
+---
+
+### Thank you!
+
+- Mentors (Rail Aliiev, Rok Garbas)
+- Managers (Chris Cooper, Chris AtLee)
+- Release Engineering Team
+- Toronto office folk
+- Awesome Interns!
