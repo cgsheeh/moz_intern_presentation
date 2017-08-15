@@ -36,15 +36,25 @@
 +++
 
 ### Why Swagger/OpenAPI?
-<span>
+<table>
+<tr>
+<td>
 ![Swagger](assets/swagger.png)
-</span>
-<span>
+</td>
+
+<td>
 - Use *Connexion* library
 - Auto-generate SwaggerUI
 - Auto-generate client libraries in multiple languages
-- YAML - easy to read for humans and machines
-</span>
-+++
+- API specifications in YAML
+</td>
+</tr>
+</table>
 
-###
+---
+
+### Ship-It v2
+
+- Re-design of Ship-It v1
+- Internal tool for starting the release process
+- 
