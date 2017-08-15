@@ -37,7 +37,7 @@
 
 ### Why Swagger/OpenAPI?
 <span>
----?image=assets/swagger.png&size=contain
+![Swagger](assets/swagger.png)
 </span>
 <span>
 - Use *Connexion* library
