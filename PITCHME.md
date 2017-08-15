@@ -11,25 +11,10 @@
 
 ### Topics
 
-- Release Engineering "*News*"
 - RelEng Services
 - Ship-It v2!
 - My work
 - Wrap-Up and Thanks
-
----
-
-### RelEng Updates
-
-- Big News: TaskCluster Migration
-![Buildbot](assets/buildbot.png)
-![TaskCluster](assets/taskcluster.png)
-
-+++
-
-### "Tiger Team"
-
-![Tiger](assets/tiger.png)
 
 ---
 
@@ -51,16 +36,13 @@
 +++
 
 ### Why Swagger/OpenAPI?
-
+<span>![Swagger](assets/swagger.png)</span>
+<span>
 - Use *Connexion* library
 - Auto-generate SwaggerUI
 - Auto-generate client libraries in multiple languages
 - YAML - easy to read for humans and machines
-
+</span>
 +++
 
-### Why Nix?
-
-- A step towards reproducible builds
-- Dependencies... come again?
-- Managed environments
+###
