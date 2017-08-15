@@ -36,13 +36,13 @@
 +++
 
 ### Why Swagger/OpenAPI?
-<span>![Swagger](assets/swagger.png)</span> |
-<span>
+![Swagger](assets/swagger.png)
+
 - Use *Connexion* library
 - Auto-generate SwaggerUI
 - Auto-generate client libraries in multiple languages
 - API specifications in YAML
-</span>
+
 
 ---
 
