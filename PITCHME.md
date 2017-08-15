@@ -1,13 +1,15 @@
-# Some title for the presentation
+## Some title for the presentation
 
-### Connor Sheehan
-### McMaster University
-### csheehan@mozilla.com
-### IRC: sheehan
+<br>
+
+#### Connor Sheehan
+#### github.com/cgsheeh
+#### csheehan@mozilla.com
+#### IRC: sheehan
 
 ---
 
-## Topics
+### Topics
 
 - Release Engineering "*News*"
 - RelEng Services
@@ -36,7 +38,7 @@
 - Move all RelEng services to one repo              |
 - Define all APIs with Swagger/OpenAPI              |
 - Provide a single front-end (a la TaskCluster)     |
-- Build all services with Nix                       |
+- Build all services with Nix/Docker                |
 
 +++
 
