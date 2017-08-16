@@ -100,8 +100,8 @@ paths:
 ```
 
 @[1-19](Specify app metadata)
-@[21-25](Define your URL endpoints and bind to Python views)
-@[26-39](Define your required input parameters)
+@[21-26](Define your URL endpoints and bind to Python views)
+@[27-39](Define your required input parameters)
 @[40-50](Define response codes, their format and context)
 
 +++
@@ -124,7 +124,7 @@ paths:
 
 ### Manual Sign-offs
 
-![Pipeline](assets/pipeline.jng)
+![Pipeline](assets/pipeline.jpg)
 
 - Model release as a "pipeline"
 - Output of one pipeline is input of another
@@ -143,7 +143,8 @@ paths:
 
 ### UI Component
 
-![Elm](assets/elm.png)
+
+![Elm](assets/elm.png =25%x25%)
 
 - Elm programming language
 - Compiles to JS, statically typed, functional
