@@ -35,7 +35,7 @@
 
 +++
 
-### Why Swagger/OpenAPI?
+### Swagger/OpenAPI
 ![Swagger](assets/swagger.png)
 
 - Use Connexion library                                     |
@@ -101,7 +101,7 @@ paths:
 
 @[1-19](Specify app metadata)
 @[21-25](Define your URL endpoints and bind to Python views)
-@[26-38](Define your required input parameters)
+@[26-39](Define your required input parameters)
 @[40-50](Define response codes, their format and context)
 
 +++
@@ -124,6 +124,8 @@ paths:
 
 ### Manual Sign-offs
 
+![Pipeline](assets/pipeline.jng)
+
 - Model release as a "pipeline"
 - Output of one pipeline is input of another
 - Humans sign-off on each completed step - can cause delays
@@ -133,12 +135,30 @@ paths:
 ### Escalating Notifications
 
 - Two micro-services ("NagBot")
-    - Identity: stores notification preferences
-    - Policy: stores and executes notification policies
-- Pipeline requires human work, add new notification policies to service
-- Send notifications according to policies
+    - Identity: stores notification preferences                             |
+    - Policy: stores and executes notification policies                     |
+- Mono-repo allows use of common utility for all services
+
++++
+
+### UI Component
+
+![Elm](assets/elm.png)
+
+- Elm programming language
+- Compiles to JS, statically typed, functional
+- Great compiler errors - refactor confidently
+- Discontinued within Engineering Ops but interesting nonetheless
+
++++
+
+![NagBotUI](assets/nagbotui.png)
 
 ---
+
+![RelEngTeam](assets/relengteam.png)
+
++++
 
 ### Thank you!
 
