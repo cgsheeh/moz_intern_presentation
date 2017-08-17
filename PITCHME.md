@@ -124,6 +124,8 @@ paths:
 
 ### Escalating Notifications
 
+![Escalator](assets/escalator.jpg)
+
 - Two notification micro-services ("NagBot")                                |
     - Identity: preferences (low, med, high)                                |
     - Policy: policies (1pm to 5pm, every 15 mins)                          |
