@@ -124,7 +124,7 @@ paths:
 
 ### Escalating Notifications
 
-<img src="assets/escalator.jpg" width="35%" height=35%>
+<img src="assets/escalator.jpg" width="35%" height=20%>
 
 - Two notification micro-services ("NagBot")                                |
     - Identity: preferences (low, med, high)                                |
