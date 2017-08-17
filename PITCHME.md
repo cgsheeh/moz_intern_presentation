@@ -126,7 +126,7 @@ paths:
 
 - Two notification micro-services ("NagBot")                                |
     - Identity: preferences (low, med, high)                                |
-    - Policy: policies (from now until 5pm, every 15 mins)                  |
+    - Policy: policies (1pm to 5pm, every 15 mins)                          |
 - Compose policies to "escalate" notifications                              |
 
 ---
