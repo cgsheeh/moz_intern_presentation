@@ -144,7 +144,7 @@ paths:
 ### UI Component
 
 
-![Elm](assets/elm.png){}
+<img src="assets/elm.png" width="25%" height=25%>
 
 - Elm programming language
 - Compiles to JS, statically typed, functional
