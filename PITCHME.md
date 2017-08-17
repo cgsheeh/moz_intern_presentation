@@ -157,7 +157,7 @@ paths:
 
 ---
 
-![RelEngTeam](assets/relengteam.png)
+---?image=assets/releng_team.jpg&size=auto
 
 ---
 
