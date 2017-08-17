@@ -1,4 +1,4 @@
-## Big Project, Small Services
+## Building Modern Microservices
 
 <br>
 
@@ -22,7 +22,7 @@
 
 - Move all RelEng services to one repo              |
 - Define all APIs with Swagger/OpenAPI              |
-- Provide a single front-end (a la TaskCluster)     |
+- Provide a unified front-end                       |
 - Build all services with Nix/Docker                |
 
 +++
@@ -141,15 +141,15 @@ paths:
 
 ---
 
-### UI Component
+### Elm UI Component
 
 
 <img src="assets/elm.png" width="25%" height=25%>
 
-- Elm programming language
 - Compiles to JS, statically typed, functional
 - Great compiler errors - refactor confidently
-- Discontinued within Engineering Ops but interesting nonetheless
+- Virtual DOM (ReactJS)
+- Discontinued
 
 ---
 
