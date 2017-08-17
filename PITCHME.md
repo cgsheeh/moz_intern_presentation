@@ -21,17 +21,8 @@
 ### RelEng Services
 
 - Move all RelEng services to one repo              |
-- Define all APIs with Swagger/OpenAPI              |
+- Define all HTTP APIs with Swagger/OpenAPI         |
 - Provide a unified front-end                       |
-- Build all services with Nix/Docker                |
-
-+++
-
-### Why One Repository?
-
-- Service discoverability                                   |
-- Re-use common components (CLI tools, Flask plugins etc)   |
-- Quick overview of how/where/what is running               |
 
 ---
 
@@ -100,8 +91,8 @@ paths:
 ```
 
 @[1-19](Specify app metadata)
-@[21-26](Define your URL endpoints and bind to Python views)
-@[27-39](Define your required input parameters)
+@[21-26](Define URL endpoints and bind to Python views)
+@[27-39](Define required input parameters)
 @[40-50](Define response codes, their format and context)
 
 ---
@@ -114,8 +105,7 @@ paths:
 
 ![Ship-it](assets/shipit.png)
 
-- Re-design of Ship-It v1
-- Internal tool used across RelEng, RelMan, QE, etc
+- Cross-team tool (RelEng, RelMan, QE, etc)
 - Co-ordinate releases
 - Monitor automation handoffs
 
@@ -126,18 +116,18 @@ paths:
 
 ![Pipeline](assets/pipeline.jpg)
 
-- Model release as a "pipeline"
-- Output of one pipeline is input of another
-- Humans sign-off on each completed step - can cause delays
+- Model release as a "pipeline"                                 |
+- Output of one pipeline is input of another                    |
+- Humans sign-off between pipelines                             |
 
 ---
 
 ### Escalating Notifications
 
 - Two micro-services ("NagBot")                                             |
-    - Identity: stores notification preferences                             |
-    - Policy: stores and executes notification policies                     |
-- Mono-repo allows use of common utility for all services                   |
+    - Identity: notification preferences (low, med, high)                   |
+    - Policy: notification policies (from now until 5pm, every 15 mins)     |
+- Compose policies to "escalate" notifications                              |
 
 ---
 
@@ -167,4 +157,4 @@ paths:
 - Managers (Chris Cooper, Chris AtLee)
 - Release Engineering Team
 - Toronto office folk
-- Awesome Interns!
+- Interns!
