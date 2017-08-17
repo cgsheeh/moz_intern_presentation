@@ -103,7 +103,7 @@ paths:
 
 ### Ship-It v2
 
-![Ship-it](assets/shipit.jpeg)
+<img src="assets/shipit.jpeg" width="25%" height=25%>
 
 - Cross-team tool (RelEng, RelMan, QE, etc)     |
 - Co-ordinate releases                          |
