@@ -103,7 +103,7 @@ paths:
 
 ### Ship-It v2
 
-![Ship-it](assets/shipit.png)
+![Ship-it](assets/shipit.jpeg)
 
 - Cross-team tool (RelEng, RelMan, QE, etc)     |
 - Co-ordinate releases                          |
@@ -139,10 +139,6 @@ paths:
 - Great compiler errors - refactor confidently      |
 - Virtual DOM (ReactJS)                             |
 
-
----
-
-![NagBotUI](assets/nagbotui.png)
 
 ---
 
