@@ -97,7 +97,7 @@ paths:
 
 ---
 
-![SwaggerUI](assets/swaggerui.png)
+---?video=assets/swagger_ui.mp4&size=contain
 
 ---
 
@@ -105,9 +105,9 @@ paths:
 
 ![Ship-it](assets/shipit.png)
 
-- Cross-team tool (RelEng, RelMan, QE, etc)
-- Co-ordinate releases
-- Monitor automation handoffs
+- Cross-team tool (RelEng, RelMan, QE, etc)     |
+- Co-ordinate releases                          |
+- Monitor automation handoffs                   |
 
 
 ---
@@ -133,13 +133,12 @@ paths:
 
 ### Elm UI Component
 
-
 <img src="assets/elm.png" width="25%" height=25%>
 
-- Compiles to JS, statically typed, functional
-- Great compiler errors - refactor confidently
-- Virtual DOM (ReactJS)
-- Discontinued
+- Compiles to JS, statically typed, functional      |
+- Great compiler errors - refactor confidently      |
+- Virtual DOM (ReactJS)                             |
+
 
 ---
 
