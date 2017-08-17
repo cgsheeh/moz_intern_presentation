@@ -3,8 +3,8 @@
 <br>
 
 #### Connor Sheehan
+#### Release Engineering Intern
 #### github.com/cgsheeh
-#### csheehan@mozilla.com
 #### IRC: sheehan
 
 ---
