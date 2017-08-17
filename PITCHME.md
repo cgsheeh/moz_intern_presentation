@@ -157,7 +157,7 @@ paths:
 
 ---
 
----?image=assets/releng_team.jpg&size=auto
+---?image=assets/releng_team.jpg&size=contain
 
 ---
 
