@@ -124,9 +124,9 @@ paths:
 
 ### Escalating Notifications
 
-- Two micro-services ("NagBot")                                             |
-    - Identity: notification preferences (low, med, high)                   |
-    - Policy: notification policies (from now until 5pm, every 15 mins)     |
+- Two notification micro-services ("NagBot")                                |
+    - Identity: preferences (low, med, high)                                |
+    - Policy: policies (from now until 5pm, every 15 mins)                  |
 - Compose policies to "escalate" notifications                              |
 
 ---
