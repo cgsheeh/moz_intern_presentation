@@ -33,7 +33,7 @@
 - Re-use common components (CLI tools, Flask plugins etc)   |
 - Quick overview of how/where/what is running               |
 
-+++
+---
 
 ### Swagger/OpenAPI
 ![Swagger](assets/swagger.png)
@@ -43,7 +43,7 @@
 - Client library generation                                 |
 - API specifications in YAML                                |
 
-+++
+---
 
 ```yaml
 swagger: "2.0"
@@ -104,7 +104,7 @@ paths:
 @[27-39](Define your required input parameters)
 @[40-50](Define response codes, their format and context)
 
-+++
+---
 
 ![SwaggerUI](assets/swaggerui.png)
 
@@ -120,7 +120,7 @@ paths:
 - Monitor automation handoffs
 
 
-+++
+---
 
 ### Manual Sign-offs
 
@@ -130,28 +130,28 @@ paths:
 - Output of one pipeline is input of another
 - Humans sign-off on each completed step - can cause delays
 
-+++
+---
 
 ### Escalating Notifications
 
-- Two micro-services ("NagBot")
+- Two micro-services ("NagBot")                                             |
     - Identity: stores notification preferences                             |
     - Policy: stores and executes notification policies                     |
-- Mono-repo allows use of common utility for all services
+- Mono-repo allows use of common utility for all services                   |
 
-+++
+---
 
 ### UI Component
 
 
-![Elm](assets/elm.png =25%x25%)
+![Elm](assets/elm.png){}
 
 - Elm programming language
 - Compiles to JS, statically typed, functional
 - Great compiler errors - refactor confidently
 - Discontinued within Engineering Ops but interesting nonetheless
 
-+++
+---
 
 ![NagBotUI](assets/nagbotui.png)
 
@@ -159,7 +159,7 @@ paths:
 
 ![RelEngTeam](assets/relengteam.png)
 
-+++
+---
 
 ### Thank you!
 
