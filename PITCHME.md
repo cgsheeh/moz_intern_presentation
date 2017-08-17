@@ -97,7 +97,7 @@ paths:
 
 ---
 
----?video=assets/swagger_ui.mp4&size=contain
+---?video=assets/swagger_ui.mp4
 
 ---
 
